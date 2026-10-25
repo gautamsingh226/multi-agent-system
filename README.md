@@ -1,259 +1,294 @@
-Top open-source AI repositories (like LangGraph, CrewAI, and `Best-README-Template`) stand out from average project documentation by optimizing for immediate visual scanning, reproducibility, and developer onboarding.
+🔬 Multi-Agent Research Assistant
 
-### Comparison: Your Draft vs. Best-in-Class GitHub READMEs
+An AI-powered research assistant that uses multiple agents to search the web, analyze information, generate reports, and evaluate their quality through a Streamlit interface.
 
-| Criteria | Your Current Draft | Best-in-Class Standard | Fixed & Upgraded in Final Version |
-| --- | --- | --- | --- |
-| **Visual Trust & Header** | Plain H1 title and paragraph. | Centered header with tech badges (Shields.io), Python version, license, and quick navigation links. | Added dynamic Shields.io badges, centered hero header, and quick jump links. |
-| **Navigation** | Requires scrolling through the whole file. | Collapsible or linked **Table of Contents** for instant scanning. | Added a linked Table of Contents. |
-| **Markdown Syntax** | Missing code fences (`````) around `git clone`, `pip`, `.gitignore`, and the ASCII diagram; broken sub-bullet indentation; stray `gitignore----` text. | 100% compliant GitHub Flavored Markdown (GFM) with language-tagged code blocks for one-click copying. | Fixed every broken fence, indented nested lists, and added `bash`/`env`/`text` syntax tags. |
-| **Architecture Diagram** | Plain text with non-breaking spaces (`\u00A0`) that wrap poorly on mobile screens. | Native **Mermaid.js** flowcharts (rendered natively by GitHub) alongside clean ASCII or component tables. | Upgraded to a GitHub-native Mermaid diagram plus a structured Agent Specification table. |
-| **Link Integrity** | Broken Google search redirect links (`google.com/search?q=...`) on API Key and License links. | Clean, direct URLs to official docs and repository files. | Replaced all broken redirect URLs with direct links. |
-| **Developer Experience** | Covers basic installation and running. | Includes **Demo/Screenshots**, **Sample Output**, **Roadmap**, and **Contributing** guidelines. | Added UI Demo placeholder, Sample Report/Critic output preview, Roadmap, and Contributing steps. |
-
----
-
-### Complete Production-Ready `README.md`
-
-Copy the raw Markdown block below directly into your repository's `README.md` file:
-
-```markdown
-<div align="center">
 
 # 🔬 Multi-Agent Research Assistant
 
-**An autonomous multi-agent web research, synthesis, and peer-review pipeline powered by LangChain, OpenRouter, and Streamlit.**
+**An AI-powered research assistant that uses multiple agents to search the web, analyze information, generate reports, and evaluate their quality through a Streamlit interface.**
 
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![LangChain](https://img.shields.io/badge/LangChain-LCEL-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)](https://github.com/langchain-ai/langchain)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.35%2B-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
-[![OpenRouter](https://img.shields.io/badge/LLM-GPT--4o--mini-6366F1?style=for-the-badge)](https://openrouter.ai/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-10B981?style=for-the-badge)](LICENSE)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-AI%20Agents-green)
+![Streamlit](https://img.shields.io/badge/Streamlit-Web%20UI-red?logo=streamlit&logoColor=white)
+![OpenRouter](https://img.shields.io/badge/LLM-OpenRouter-purple)
 
-[Overview](#project-overview) • [Architecture](#system-architecture) • [Features](#key-features) • [Installation](#installation-instructions) • [Usage](#how-to-run-the-application) • [Roadmap](#roadmap)
-
-</div>
 
 ---
 
-## Table of Contents
+## 📌 Table of Contents
 
-- [Project Overview](#project-overview)
-- [System Architecture](#system-architecture)
-- [Key Features](#key-features)
-- [Technologies Used](#technologies-used)
-- [Project Structure](#project-structure)
-- [Installation Instructions](#installation-instructions)
-- [How to Run the Application](#how-to-run-the-application)
-- [Sample Output](#sample-output)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [License](#license)
+- [Project Overview](#-project-overview)
+- [Features](#-features)
+- [Technologies Used](#-technologies-used)
+- [Project Structure](#-project-structure)
+- [Installation Instructions](#-installation-instructions)
+- [How to Run the Streamlit Application](#-how-to-run-the-streamlit-application)
+- [How It Works](#-how-it-works)
+- [Configuration](#-configuration)
+- [Future Improvements](#-future-improvements)
 
 ---
 
-## Project Overview
+## 📖 Project Overview
 
-Conducting deep topic research manually involves disjointed, repetitive steps: querying search engines, opening dozens of tabs, filtering out low-signal content, synthesizing disparate sources, and reviewing drafts for analytical blind spots.
+The **Multi-Agent Research Assistant** is an AI-powered application built with Python, LangChain, OpenRouter, and Streamlit.
 
-**Multi-Agent Research Assistant** automates that workflow into a reproducible four-stage pipeline:
+It automates the research process by using multiple AI agents and chains to collect information from the web, extract relevant content, generate structured research reports, and evaluate the quality of those reports.
 
-1. **Discovery:** Queries the web to gather verified URLs, titles, and contextual snippets using a tool-calling Search Agent.
-2. **Extraction:** Dispatches a Reader Agent to select the highest-signal source and scrape clean, full-text content.
-3. **Synthesis:** Executes a structured Writer Chain (LCEL) to draft an executive-ready report complete with citations.
-4. **Peer Review:** Audits the generated report via an independent Critic Chain that assigns an objective quality score (`X/10`), highlights strengths and weaknesses, and suggests concrete improvements.
+Instead of manually searching through multiple websites and organizing information, users can enter a research topic and let the system perform the research workflow.
 
-> **Demo Preview:** *(Optional: Add a screenshot or GIF of your Streamlit dashboard here, e.g., `![App Screenshot](assets/demo.png)`)*
+The application provides an interactive Streamlit interface where users can enter research topics, view generated reports, inspect intermediate results, and download the final output.
 
----
+### 🎯 Project Objective
 
-## System Architecture
-
-GitHub natively renders the Mermaid workflow below to illustrate how state moves across agents and chains:
-
-```mermaid
-flowchart TD
-    A([🎯 User Research Topic]) --> B{Check MD5 Disk Cache}
-    B -- Cache Hit --> G([📊 Render Report & Export])
-    B -- Cache Miss --> C[🔍 Step 1: Search Agent<br/>Tool: web_search]
-    C -->|Titles, URLs & Snippets| D[📖 Step 2: Reader Agent<br/>Tool: scrape_url]
-    D -->|Extracted Full Text| E[✍️ Step 3: Writer Chain<br/>LCEL Prompt + GPT-4o-mini]
-    E -->|Structured Draft Report| F[⚖️ Step 4: Critic Chain<br/>Strict Quality Evaluation]
-    F -->|Save State .pkl| H[(.research_cache)]
-    H --> G
-```
-
-### Agent & Chain Specifications
-
-| Stage | Component | Type | Underlying Mechanism | Output State Key |
-| :--- | :--- | :--- | :--- | :--- |
-| **1** | **Search Agent** | Tool-Calling Agent | `create_agent` + `web_search` | `state["search_results"]` |
-| **2** | **Reader Agent** | Tool-Calling Agent | `create_agent` + `scrape_url` | `state["scraped_content"]` |
-| **3** | **Writer Chain** | LCEL Pipeline | `writer_prompt \| llm \| StrOutputParser()` | `state["report"]` |
-| **4** | **Critic Chain** | LCEL Pipeline | `critic_prompt \| llm \| StrOutputParser()` | `state["feedback"]` |
+The main objective of this project is to simplify web research by automating information gathering, report generation, and quality evaluation using AI.
 
 ---
 
-## Key Features
+## ✨ Features
 
-- **Sequential Multi-Agent Handoffs:** Passes structured state cleanly across discovery, reading, writing, and evaluation stages.
-- **Full-Text Web Extraction:** Goes beyond shallow search snippets by parsing full webpage bodies for deeper factual grounding.
-- **Automated Quality Gate:** Built-in Critic Chain scores every report out of 10 and pinpoints missing context or weak claims.
-- **Smart MD5 Disk Caching (`.research_cache/`):** Hashes normalized query strings into local pickle states, eliminating redundant API costs on repeated topics.
-- **Interactive Streamlit Workspace:**
-  - Real-time progress spinners, status badges, and expandable intermediate step inspectors.
-  - One-click topic suggestion chips and persistent sidebar search history (up to 20 recent runs).
-  - Multi-format report downloads in **Plain Text (`.txt`)**, **Markdown (`.md`)**, and **JSON (`.json`)**.
-- **Dual Execution Modes:** Launch interactively in the browser via Streamlit or run headlessly from the command line.
-
----
-
-## Technologies Used
-
-- **Orchestration & Agents:** [LangChain](https://github.com/langchain-ai/langchain), LangChain Core (LCEL), LangChain OpenAI
-- **Web Interface:** [Streamlit](https://streamlit.io/)
-- **LLM Gateway & Model:** [OpenRouter API](https://openrouter.ai/) (`openai/gpt-4o-mini`, temperature `0`)
-- **Search & Web Scraping:** Tavily Search API, `requests`, `beautifulsoup4`
-- **Caching & Environment:** `python-dotenv`, `hashlib`, `pickle`, `pathlib`
+- **🔍 Web Search:** Searches the web for relevant information about a given research topic.
+- **📄 Content Extraction:** Extracts useful content from webpages for further analysis.
+- **🤖 Multi-Agent Workflow:** Uses different agents and chains for searching, reading, writing, and reviewing information.
+- **✍️ AI Report Generation:** Generates structured research reports based on the collected information.
+- **⚖️ AI-Powered Review:** Evaluates the generated report, provides a quality score, identifies weaknesses, and suggests improvements.
+- **🌐 Interactive Streamlit UI:** Provides a simple web interface for interacting with the research assistant.
+- **📊 Intermediate Results:** Allows users to inspect the different stages of the research process.
+- **💾 Research Caching:** Can reuse cached research results to reduce repeated processing for the same query.
+- **📥 Report Export:** Supports downloading reports in formats such as TXT, Markdown, and JSON, if implemented in the application.
+- **⚡ Automated Workflow:** Reduces the manual effort required to research a topic and prepare a report.
 
 ---
 
-## Project Structure
+## 🛠️ Technologies Used
 
-```text
+| Technology | Purpose |
+|---|---|
+| Python | Core programming language |
+| Streamlit | Web-based user interface |
+| LangChain | AI agent and workflow development |
+| LangChain Core (LCEL) | Building language model processing chains |
+| LangChain OpenAI | Connecting language models through an OpenAI-compatible API |
+| OpenRouter API | Accessing supported AI language models |
+| Tavily Search API | Searching the web for research information |
+| Requests | Sending HTTP requests |
+| BeautifulSoup | Extracting text from HTML webpages |
+| python-dotenv | Loading environment variables from a `.env` file |
+| Hashlib | Generating hashes for cache keys |
+| Pickle | Storing cached Python objects |
+
+---
+
+## 📁 Project Structure
+
+The project may be organized as follows:
+
 multi-agent-system/
 │
-├── app.py                  # Streamlit web UI, session state, and disk cache manager
-├── agents.py               # Agent builders, LCEL chains, prompts, and CLI runner
-├── tools.py                # Custom LangChain tools (web_search, scrape_url)
-├── requirements.txt        # Python package dependencies
-├── .env.example            # Template for required API keys
-├── .gitignore              # Ignored virtualenvs, secrets, and cache directories
-└── .research_cache/        # Auto-generated local cache store (.pkl files)
-```
+├── app.py                 # Streamlit application
+├── agents.py              # AI agents and research workflow
+├── tools.py               # Web search and webpage extraction tools
+├── requirements.txt       # Python dependencies
+├── .env                   # API keys (keep private)
+├── .env.example           # Example environment configuration
+├── .gitignore             # Files excluded from Git
+└── .research_cache/       # Locally cached research results
+
+
+**Note:** The structure above is a reference. Keep the filenames and folders consistent with your actual project.
 
 ---
 
-## Installation Instructions
+## ⚙️ Installation Instructions
+
+Follow these steps to install and configure the project on your computer.
 
 ### Prerequisites
 
-- **Python 3.10** or higher
-- An active [OpenRouter API Key](https://openrouter.ai/keys)
-- An active [Tavily API Key](https://tavily.com/) *(if using Tavily inside `tools.py`)*
+Make sure you have installed:
 
-### 1. Clone the Repository
+- Python 3.10 or later
+- Git
+- A code editor such as VS Code
+- An OpenRouter API key
+- A Tavily API key, if your project uses Tavily for web search
 
-```bash
-git clone https://github.com/<your-username>/multi-agent-research-system.git
-cd multi-agent-research-system
-```
+### Step 1: Clone the Repository
 
-### 2. Create and Activate a Virtual Environment
+Replace `<your-username>` with your GitHub username.
+git clone https://github.com/<your-username>/multi-agent-system.git
 
-```bash
-# macOS / Linux
-python3 -m venv venv
-source venv/bin/activate
+Navigate to the project directory:
+cd multi-agent-system
 
-# Windows (PowerShell)
+
+If you have already downloaded or cloned the project, open a terminal in the project directory instead.
+
+### Step 2: Create a Virtual Environment
+
+Create an isolated Python environment:
 python -m venv venv
+
+
+### Step 3: Activate the Virtual Environment
+
+**Windows PowerShell:**
 .\venv\Scripts\Activate.ps1
 
-# Windows (Command Prompt)
-python -m venv venv
-.\venv\Scripts\activate.bat
-```
+**Windows Command Prompt:**
+venv\Scripts\activate.bat
 
-### 3. Install Dependencies
+**macOS/Linux:**
+source venv/bin/activate
 
-```bash
-pip install --upgrade pip
+### Step 4: Install Dependencies
+
+Upgrade pip:
+python -m pip install --upgrade pip
+
+Install the required packages:
 pip install -r requirements.txt
-```
 
-### 4. Configure Environment Variables
 
-Create a `.env` file in the project root directory:
+**Important:** Make sure your `requirements.txt` file contains all the Python packages imported by your project.
 
-```bash
-cp .env.example .env
-```
+If you do not have a `requirements.txt` file yet, create one containing the dependencies your code actually uses.
 
-Open `.env` and add your API keys:
+### Step 5: Configure Environment Variables
+
+Create a file named `.env` in the root directory of the project.
+
+If your project contains a `.env.example` file, you can copy it.
+
+**Windows PowerShell:**
+
+Copy-Item .env.example .env
+
+Alternatively, create `.env` manually.
+
+Add your API keys using the environment variable names expected by your Python code.
+
+For example:
+
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+TAVILY_API_KEY=your_tavily_api_key_here
+
+Replace the placeholder values with your actual API keys.
+
+- Get your OpenRouter API key from the [OpenRouter website](https://openrouter.ai/keys).
+- Get your Tavily API key from the [Tavily website](https://tavily.com/).
+
+**Security Warning:** Never upload your `.env` file or API keys to GitHub. Add `.env` to your `.gitignore` file.
+
+---
+
+## 🚀 How to Run the Streamlit Application
+
+After installing the dependencies and configuring your API keys, follow these steps.
+
+### Step 1: Open the Project Directory
+
+Open your terminal in the project folder:
+
+cd multi-agent-system
+
+
+Activate your virtual environment if it is not already active.
+
+### Step 2: Start the Streamlit Application
+
+Run the following command:
+streamlit run app.py
+
+
+This starts the Streamlit development server.
+
+### Step 3: Open the Application in Your Browser
+
+Streamlit normally opens the application automatically in your default browser.
+
+If it does not, open:
+http://localhost:8501
+
+
+### Step 4: Use the Application
+
+1. Enter a research topic in the input field.
+2. Start the research process using the button provided by the application.
+3. Allow the agents to search for information and process the results.
+4. Review the generated research report.
+5. Inspect intermediate results and review feedback if these features are available.
+6. Download the report in a supported format if the application provides export options.
+
+**To stop the application**, return to the terminal and press:
+Ctrl + C
+
+---
+
+## 🔄 How It Works
+
+The research assistant follows a multi-stage workflow.
+
+### 1. Search Agent
+
+Searches the web for information relevant to the user's research topic.
+
+### 2. Reader Agent
+
+Extracts relevant content from selected webpages.
+
+### 3. Writer Chain
+
+Uses the collected information to generate a structured research report.
+
+### 4. Critic Chain
+
+Evaluates the generated report, identifies weaknesses, and provides suggestions for improvement.
+
+### Workflow Diagram
+
+       User Research Topic
+                |
+                v
+          Search Agent
+                |
+                v
+          Reader Agent
+                |
+                v
+          Writer Chain
+                |
+                v
+          Critic Chain
+                |
+                v
+      Final Research Report
+                |
+                v
+        User Reviews Output
+
+---
+
+## 🔐 Configuration
+
+The application uses environment variables to store API credentials.
+
+Example `.env` configuration:
 
 ```env
 OPENROUTER_API_KEY=your_openrouter_api_key_here
 TAVILY_API_KEY=your_tavily_api_key_here
 ```
 
----
+Make sure that:
 
-## How to Run the Application
+- Your API keys are valid.
+- Your `.env` file is in the project root directory.
+- Your application loads environment variables correctly.
+- The environment variable names match those used in your Python code.
+- Your `.env` file is excluded from version control.
 
-### Option 1: Streamlit Web Interface (Recommended)
-
-Start the local Streamlit server:
-
-```bash
-streamlit run app.py
-```
-
-Open `http://localhost:8501` in your browser:
-1. **Enter a Topic:** Type any research query into the search bar or click a **Suggestion Chip**.
-2. **Generate:** Click **🚀 Generate** (or press `Enter`).
-3. **Inspect Steps:** Expand the step containers to view raw search snippets, scraped webpage content, and intermediate outputs.
-4. **Export:** Download the final report and critic review as `.txt`, `.md`, or `.json`.
-
-### Option 2: Command-Line Interface (CLI)
-
-Run the pipeline directly in your terminal without launching a browser:
-
-```bash
-python agents.py
-```
-
-Enter your research topic when prompted to stream execution logs, the final report, and critic feedback directly to standard output.
-
----
-
-## Sample Output
-
-**Critic Chain Evaluation Format:**
-
-```text
-Score: 8.5/10
-
-Strengths:
-- Clear synthesis of primary source data into structured sections.
-- Accurate attribution of all external URLs gathered during discovery.
-
-Weaknesses:
-- Limited quantitative comparison across competing industry approaches.
-
-Suggestions for Improvement:
-- Scrape secondary URLs to cross-verify benchmark claims and add a comparison table.
-```
-
----
-
-## Dependencies (`requirements.txt`)
-
-```text
-streamlit>=1.35.0
-langchain>=0.2.0
-langchain-core>=0.2.0
-langchain-openai>=0.1.0
-tavily-python>=0.3.0
-python-dotenv>=1.0.0
-pydantic>=2.0.0
-requests>=2.31.0
-beautifulsoup4>=4.12.0
-```
-
----
-
-## Recommended `.gitignore`
+### Recommended `.gitignore`
 
 ```gitignore
 .env
@@ -261,34 +296,43 @@ venv/
 __pycache__/
 *.py[cod]
 .research_cache/
-.streamlit/
+.streamlit/secrets.toml
 ```
 
 ---
 
-## Roadmap
+## 🔮 Future Improvements
 
-- [ ] **Multi-URL Parallel Scraping:** Allow the Reader Agent to scrape top $N$ URLs concurrently rather than a single source.
-- [ ] **Self-Reflection Loop:** Automatically route reports scoring below `7/10` back to the Writer Chain using the Critic's suggestions.
-- [ ] **PDF Export:** Add formatted PDF generation alongside `.txt`, `.md`, and `.json`.
-- [ ] **Model Selector in Sidebar:** Let users switch dynamically between OpenRouter models (Claude, Gemini, Llama, GPT).
+Possible improvements for the project include:
+
+- Parallel webpage extraction for faster research.
+- Iterative report improvement based on critic feedback.
+- PDF export for generated reports.
+- Support for selecting different language models.
+- Improved source verification and citation handling.
+- More detailed research history and report management.
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!
+Contributions, suggestions, and bug reports are welcome.
+
+To contribute:
 
 1. Fork the repository.
-2. Create your feature branch (`git checkout -b feature/self-reflection-loop`).
-3. Commit your changes (`git commit -m "Add iterative critic-writer loop"`).
-4. Push to the branch (`git push origin feature/self-reflection-loop`).
-5. Open a Pull Request.
+2. Create a new branch.
+3. Make your changes.
+4. Commit your changes.
+5. Push your branch to GitHub.
+6. Open a Pull Request.
 
 ---
 
-## License
+## 📄 License
 
-Distributed under the [MIT License](LICENSE).
+No license has been specified for this project yet.
 
-```
+If you decide to distribute the project under the MIT License, add a `LICENSE` file containing the appropriate MIT License text and update this section accordingly.
+
+---
