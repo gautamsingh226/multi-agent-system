@@ -1,0 +1,29 @@
+# LangChain Core & Framework
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-community>=0.2.0
+
+# Multi-Agent & ReAct Agent orchestration
+langgraph>=0.1.0
+
+# OpenAI Integration
+langchain-openai>=0.1.0
+openai>=1.30.0
+
+# Tavily Search Tool
+tavily-python>=0.3.3
+
+# Web Scraping & HTML Parsing (BeautifulSoup)
+beautifulsoup4>=4.12.3
+requests>=2.31.0
+urllib3>=2.0.0
+
+# Environment variables & Configuration
+python-dotenv>=1.0.1
+
+# Data validation & Typing
+pydantic>=2.7.0
+
+# UI & Display
+streamlit>=1.35.0
+rich>=13.0.0
